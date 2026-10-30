@@ -101,6 +101,43 @@ app.post('/api/books', (req, res) => {
   });
 });
 
+
+// Get a single book's details
+app.get('/api/books/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM books WHERE id = ?';
+
+  db.get(query, [id], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    res.json({ book: row });
+  });
+});
+
+
+// Delete a book listing
+app.delete('/api/books/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM books WHERE id = ?';
+
+  db.run(query, [id], function (err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    res.json({ message: 'Book deleted successfully!' });
+  });
+});
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
