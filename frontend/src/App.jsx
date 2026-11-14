@@ -6,8 +6,8 @@ import {
 import LoginPage from './LoginPage';
 import BuyBooksPage from './BuyBooksPage';
 
-const API_URL = 'http://localhost:8001/api/books';
-const LIBRARY_BG = "https://images.unsplash.com/photo-1507842229451-79b1be886a20?auto=format&fit=crop&w=2400&q=85";
+const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
+const API_URL = `${BACKEND_URL}/api/books`;
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('buy'); // 'buy' or 'sell'
